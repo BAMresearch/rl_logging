@@ -45,3 +45,23 @@ Implementing an interface for the logging library of your choice is pretty simpl
 ## Design details
 
 The actual logger that should be used is a `rl::Logger` instance. This class holds a `std::shared_ptr` to the `rl::logging::internal::LoggerInterface` implementation and thus allows the user to simply copy it.
+
+## Numbered instances
+
+Sometimes you want to identify every instance of a class. For this purpose, the `NumberedInstance` class is provided in `rl_logging/numbered_instance.hpp`. Usage:
+
+```c++
+#include <rl_logging/numbered_instance.hpp>
+
+class MyClass : public rl::logging::NumberedInstance
+{
+public:
+    MyClass(rl::Logger &parent_logger)
+        : NumberedInstance("MyClassName", parent_logger)
+    {
+        logger.info("Here I am.");
+    }
+};
+```
+
+As you can see, `NumberedInstance` has a member `logger`, which is a child of the provided `parent_logger`. You can query the instance number with `getInstanceNumber()` and its name with `getInstanceName()`, respectively.

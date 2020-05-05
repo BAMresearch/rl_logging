@@ -14,15 +14,21 @@ endif()
 find_package(rclcpp REQUIRED)
 
 ## rl_logging library
-add_library(rl_logging INTERFACE)
+#add_library(rl_logging INTERFACE)
+add_library(rl_logging
+  src/numbered_instance.cpp
+)
 
-target_include_directories(rl_logging INTERFACE 
+target_include_directories(rl_logging PUBLIC 
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
 
 install(TARGETS rl_logging
     EXPORT rl_loggingTargets
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    INCLUDES DESTINATION include
 )
 
 install(DIRECTORY include/ DESTINATION include)
